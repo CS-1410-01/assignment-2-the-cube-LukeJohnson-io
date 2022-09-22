@@ -1,6 +1,7 @@
 package cube;
 
 import java.util.Scanner;
+import java.util.regex.Matcher;
 
 /**
  * Main Application for The Cube
@@ -43,21 +44,34 @@ public class App {
     }
 
     public void run() {
-        Boolean done = false;
         Scanner keyboard = new Scanner(System.in);
         while (true) {
-            System.out.printf("%s\n\n%s",
-            cube.toString(),
-            cube.solutionString());
+            System.out.printf("%s\n\n%s\n>>> ",
+                cube.toString(),
+                cube.solutionString());
             String input = keyboard.nextLine();
-            if (input == "quit") {
+
+            if (input.equals("quit")) {
                 return;
             }
+
+            if (!Cube.MOVE.matcher(input).matches()) {
+                System.out.println("Invalid Input, try u, d, r, l, f, b, u', d', r', l', f', b', or quit");
+                continue;
+            }
+            
+            Matcher moveMatcher = Cube.MOVE.matcher(input);
+            while (moveMatcher.find()) {
+                cube.inputQueue.addLast(moveMatcher.group());
+                cube.exec();
+            }
         }
-        
+        // clean up
     }
 
     public void print() {
-        System.out.println(cube.toString());
+        System.out.printf("%s\n\n%s\n>>> ",
+                cube.toString(),
+                cube.solutionString());
     }
 }
