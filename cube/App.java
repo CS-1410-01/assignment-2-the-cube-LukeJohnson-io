@@ -46,7 +46,7 @@ public class App {
     public void run() {
         Scanner keyboard = new Scanner(System.in);
         while (true) {
-            System.out.printf("%s\n\n%s\n>>> ",
+            System.out.printf("%s\n\nSolution: %s\n>>> ",
                 cube.toString(),
                 cube.solutionString());
             String input = keyboard.nextLine();

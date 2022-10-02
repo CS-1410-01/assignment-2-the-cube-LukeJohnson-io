@@ -76,7 +76,12 @@ public class Cube {
             if (tempStack.isEmpty()) {
                 return retString.toString();
             }
-            retString.append(tempStack.pop());
+            String move = tempStack.pop();
+            if (move.endsWith("'")) {
+                retString.append(move.substring(0, 1));
+            } else {
+                retString.append(move + "'");
+            }
         }
     }
 
