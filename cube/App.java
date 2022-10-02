@@ -55,7 +55,7 @@ public class App {
                 return;
             }
 
-            if (!Cube.MOVE.matcher(input).matches()) {
+            if (!Cube.INPUT.matcher(input).matches()) {
                 System.out.println("Invalid Input, try u, d, r, l, f, b, u', d', r', l', f', b', or quit");
                 continue;
             }

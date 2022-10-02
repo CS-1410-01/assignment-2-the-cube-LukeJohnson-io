@@ -80,46 +80,80 @@ public class Cube {
         }
     }
 
+    /**
+     * I caught a cold while writing this part of the code, the side facelet translations are ugly at best.
+     * Forgive my lack of patience with java
+     * @param input
+     */
     private void doMove(String input) {
         try {
             switch (input) {
-                // rot y, g → r → b → o → g
                 case "u":
-                    state[4] = rot(state[4]);
+                    state[4] = rrot(state[4]);
+                    char[] temp = getColumn(state[2], 0);
+                    state[2] = setColumn(state[1], 0, state[2], 0);
+                    state[1] = setColumn(state[0], 0, state[1], 0);
+                    state[0] = setColumn(state[3], 0, state[0], 0);
+                    state[3] = setColumn(temp, state[3], 0);
                     break;
                 case "d":
-                    state[5] = rot(state[5]);
+                    state[5] = rrot(state[5]);
+                    temp = getColumn(state[3], 2);
+                    state[3] = setColumn(state[0], 2, state[3], 2);
+                    state[0] = setColumn(state[1], 2, state[0], 2);
+                    state[1] = setColumn(state[2], 2, state[1], 2);
+                    state[2] = setColumn(temp, state[2], 2);
                     break;
                 case "r":
-                    state[0] = rot(state[0]);
+                    state[0] = rrot(state[0]);
+                    temp = state[3][0];
+                    state[3][0] = state[4][2];
+                    state[4][2] = state[1][2];
+                    state[1][2] = state[5][2];
+                    state[5][2] = temp;
                     break;
                 case "l":
-                    state[2] = rot(state[2]);
+                    state[2] = rrot(state[2]);
+                    temp = state[3][2];
+                    state[3][2] = state[5][0];
+                    state[5][0] = state[1][0];
+                    state[1][0] = state[4][0];
+                    state[4][0] = temp;
                     break;
                 case "f":
-                    state[1] = rot(state[1]);
+                    state[1] = rrot(state[1]);
+                    temp = getColumn(state[5], 0);
+                    state[5] = setColumn(state[0][0], state[5], 0);
+                    state[0][0] = getColumn(state[4], 2);
+                    state[4] = setColumn(state[2][2], state[4], 2);
+                    state[2][2] = temp;
                     break;
                 case "b":
-                    state[3] = rot(state[3]);
+                    state[3] = rrot(state[3]);
+                    temp = getColumn(state[4], 0);
+                    state[4] = setColumn(state[0][2], state[4], 0);
+                    state[0][2] = getColumn(state[5], 2);
+                    state[5] = setColumn(state[2][0], state[5], 2);
+                    state[2][0] = temp;
                     break;
                 
                 case "u'":
-                    state[4] = rrot(state[4]);
+                    state[4] = rot(state[4]);
                     break;
                 case "d'":
-                    state[5] = rrot(state[5]);
+                    state[5] = rot(state[5]);
                     break;
                 case "r'":
-                    state[0] = rrot(state[0]);
+                    state[0] = rot(state[0]);
                     break;
                 case "l'":
-                    state[2] = rrot(state[2]);   
+                    state[2] = rot(state[2]);   
                     break;
                 case "f'":
-                    state[1] = rrot(state[1]);
+                    state[1] = rot(state[1]);
                     break;
                 case "b'":
-                    state[3] = rrot(state[3]);
+                    state[3] = rot(state[3]);
                     break;
                 default:
                     throw new Exception("Invalid move.");
@@ -177,5 +211,42 @@ public class Cube {
             }
         }
         return retMat;
+    }
+
+    private static char[] getColumn(char[][] matrix, int Idx) {
+        final int N = matrix.length;
+        final int M = matrix[0].length;
+        char[] retColVec = new char[M];
+
+        for (int i = 0; i < M; i++) {
+            retColVec[i] = matrix[Idx][i];
+        }
+
+        return retColVec;
+    }
+
+    private static char[][] setColumn(char[][] src, int srcIdx, char[][] dest, int destIdx) {
+        final int srcRows = src.length;
+        final int srcCols = src[0].length;
+        final int destRows = dest.length;
+        final int destCols = dest[0].length;
+
+        for (int i = 0; i < srcCols; i++) {
+            dest[destIdx][i] = src[srcIdx][i];
+        }
+
+        return dest;
+    }
+
+    private static char[][] setColumn(char[] src, char[][] dest, int destIdx) {
+        final int srcLen = src.length;
+        final int destRows = dest.length;
+        final int destCols = dest[0].length;
+
+        for (int i = 0; i < srcLen; i++) {
+            dest[destIdx][i] = src[i];
+        }
+
+        return dest;
     }
 }
