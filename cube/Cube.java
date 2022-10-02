@@ -82,15 +82,16 @@ public class Cube {
 
     /**
      * I caught a cold while writing this part of the code, the side facelet translations are ugly at best.
-     * Forgive my lack of patience with java
+     * Forgive my lack of patience with java. - "If it ain't broke don't fix it" - T. Bert Lance
      * @param input
      */
     private void doMove(String input) {
         try {
+            char[] temp;
             switch (input) {
                 case "u":
                     state[4] = rrot(state[4]);
-                    char[] temp = getColumn(state[2], 0);
+                    temp = getColumn(state[2], 0);
                     state[2] = setColumn(state[1], 0, state[2], 0);
                     state[1] = setColumn(state[0], 0, state[1], 0);
                     state[0] = setColumn(state[3], 0, state[0], 0);
@@ -139,21 +140,63 @@ public class Cube {
                     
                 case "u'":
                     state[4] = rot(state[4]);
+                    for (int i = 0; i < 3; i++) {
+                        temp = getColumn(state[2], 0);
+                        state[2] = setColumn(state[1], 0, state[2], 0);
+                        state[1] = setColumn(state[0], 0, state[1], 0);
+                        state[0] = setColumn(state[3], 0, state[0], 0);
+                        state[3] = setColumn(temp, state[3], 0);
+                    }
                     break;
                 case "d'":
                     state[5] = rot(state[5]);
+                    for (int i = 0; i < 3; i++) {
+                        temp = getColumn(state[3], 2);
+                        state[3] = setColumn(state[0], 2, state[3], 2);
+                        state[0] = setColumn(state[1], 2, state[0], 2);
+                        state[1] = setColumn(state[2], 2, state[1], 2);
+                        state[2] = setColumn(temp, state[2], 2);
+                    }
                     break;
                 case "r'":
                     state[0] = rot(state[0]);
+                    for (int i = 0; i < 3; i++) {
+                        temp = state[3][0];
+                        state[3][0] = state[4][2];
+                        state[4][2] = state[1][2];
+                        state[1][2] = state[5][2];
+                        state[5][2] = temp;
+                    }
                     break;
                 case "l'":
                     state[2] = rot(state[2]);   
+                    for (int i = 0; i < 3; i++) {
+                        temp = state[3][2];
+                        state[3][2] = state[5][0];
+                        state[5][0] = state[1][0];
+                        state[1][0] = state[4][0];
+                        state[4][0] = temp;
+                    }
                     break;
                 case "f'":
                     state[1] = rot(state[1]);
+                    for (int i = 0; i < 3; i++) {
+                        temp = getColumn(state[5], 0);
+                        state[5] = setColumn(state[0][0], state[5], 0);
+                        state[0][0] = getColumn(state[4], 2);
+                        state[4] = setColumn(state[2][2], state[4], 2);
+                        state[2][2] = temp;
+                    }
                     break;
                 case "b'":
                     state[3] = rot(state[3]);
+                    for (int i = 0; i < 3; i++) {
+                        temp = getColumn(state[4], 0);
+                        state[4] = setColumn(state[0][2], state[4], 0);
+                        state[0][2] = getColumn(state[5], 2);
+                        state[5] = setColumn(state[2][0], state[5], 2);
+                        state[2][0] = temp;
+                    }
                     break;
                 default:
                     throw new Exception("Invalid move.");
