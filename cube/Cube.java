@@ -136,7 +136,7 @@ public class Cube {
                     state[5] = setColumn(state[2][0], state[5], 2);
                     state[2][0] = temp;
                     break;
-                
+                    
                 case "u'":
                     state[4] = rot(state[4]);
                     break;
