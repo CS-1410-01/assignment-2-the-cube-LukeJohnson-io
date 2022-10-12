@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 
+//I really like the separation in this program, would be extremely easy to upkeep in a production environment because of files like this one being separate.
+
 /**
  * Handles environment config for App
  */

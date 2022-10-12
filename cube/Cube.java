@@ -211,7 +211,7 @@ public class Cube {
         }
     }
 
-    // I made this by accident when making rot(matrix) and decided to keep it
+    // I made this by accident when making rot(matrix) and decided to keep it -- fair enough, could be good to maybe call it in a way that could be enabled with some sort of command line arg or something. I only say this for the sake of warnings and Linters.
     private static char[][] transpose(char[][] matrix) {
         final int N = matrix.length;
         final int M = matrix[0].length;
@@ -262,7 +262,7 @@ public class Cube {
     }
 
     private static char[] getColumn(char[][] matrix, int Idx) {
-        final int N = matrix.length;
+        final int N = matrix.length; // delete
         final int M = matrix[0].length;
         char[] retColVec = new char[M];
 
@@ -274,10 +274,10 @@ public class Cube {
     }
 
     private static char[][] setColumn(char[][] src, int srcIdx, char[][] dest, int destIdx) {
-        final int srcRows = src.length;
+        final int srcRows = src.length; // delete
         final int srcCols = src[0].length;
-        final int destRows = dest.length;
-        final int destCols = dest[0].length;
+        final int destRows = dest.length; // delete
+        final int destCols = dest[0].length; // delete
 
         for (int i = 0; i < srcCols; i++) {
             dest[destIdx][i] = src[srcIdx][i];
@@ -288,8 +288,8 @@ public class Cube {
 
     private static char[][] setColumn(char[] src, char[][] dest, int destIdx) {
         final int srcLen = src.length;
-        final int destRows = dest.length;
-        final int destCols = dest[0].length;
+        final int destRows = dest.length; // delete
+        final int destCols = dest[0].length; // delete
 
         for (int i = 0; i < srcLen; i++) {
             dest[destIdx][i] = src[i];

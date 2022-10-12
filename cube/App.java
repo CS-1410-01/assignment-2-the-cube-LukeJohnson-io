@@ -3,6 +3,15 @@ package cube;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
+// Feedback: 
+//  A very impressive implementation, extremely readable and would be easy to contribute to. Not necessarilly easy for some new developers to
+//  understand so it might be wise to comment slightly more if you plan on sharing with class mates but on the whole excellent. I would
+//  note one addition might be to check on each move whether or not the cube is solved and maybe emptying out your solutions stack just so
+//  you dont run into outputs like this: Solution: r'r'r'r'u'u'u'u'
+//  But that was not part of the breif and is more of a suggestion. 
+//
+// Great Job!
+
 /**
  * Main Application for The Cube
  */
@@ -44,29 +53,30 @@ public class App {
     }
 
     public void run() {
-        Scanner keyboard = new Scanner(System.in);
-        while (true) {
-            System.out.printf("%s\n\nSolution: %s\n\n>>> ",
-                cube.toString(),
-                cube.solutionString());
-            String input = keyboard.nextLine();
+        try (Scanner keyboard = new Scanner(System.in)) { //ensures you don't run into resource leaks, not necessary but good practice.
+            while (true) {
+                System.out.printf("%s\n\nSolution: %s\n\n>>> ",
+                    cube.toString(),
+                    cube.solutionString());
+                String input = keyboard.nextLine();
 
-            if (input.equals("quit")) {
-                return;
-            }
+                if (input.equals("quit")) {
+                    return;
+                }
 
-            if (!Cube.INPUT.matcher(input).matches()) {
-                System.out.println("Invalid Input, try u, d, r, l, f, b, u', d', r', l', f', b', or quit");
-                continue;
+                if (!Cube.INPUT.matcher(input).matches()) {
+                    System.out.println("Invalid Input, try u, d, r, l, f, b, u', d', r', l', f', b', or quit");
+                    continue;
+                }
+                
+                Matcher moveMatcher = Cube.MOVE.matcher(input);
+                while (moveMatcher.find()) {
+                    cube.inputQueue.addLast(moveMatcher.group());
+                    cube.exec();
+                }
             }
-            
-            Matcher moveMatcher = Cube.MOVE.matcher(input);
-            while (moveMatcher.find()) {
-                cube.inputQueue.addLast(moveMatcher.group());
-                cube.exec();
-            }
+            // clean up
         }
-        // clean up
     }
 
     public void print() {
